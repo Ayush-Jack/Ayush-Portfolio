@@ -326,12 +326,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // ── Phase 1: Page Fade-In ──
-        // Whole page rises up + fades in
         master.fromTo(pageWrapper,
             { opacity: 0, y: 30 },
             { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
             0
         );
+
+        // ── Dot Grid Fade In ──
+        const dotGrid = document.getElementById('dotGrid');
+        if (dotGrid) {
+            master.to(dotGrid, { opacity: 0.5, duration: 1.2, ease: 'power2.out' }, 0.3);
+        }
 
         // ── Phase 2: Hero Image — smooth scale-up + fade-in ──
         master.to('.anim-hero-image', {
@@ -472,23 +477,18 @@ document.addEventListener('DOMContentLoaded', () => {
             );
         }
 
-        // About section photos — staggered grid pop
-        const aboutPhotos = gsap.utils.toArray('.about-photos-grid img');
-        if (aboutPhotos.length > 0) {
-            gsap.fromTo(aboutPhotos,
-                { y: 30, opacity: 0, scale: 0.92 },
+        // About marquee — fade in on scroll
+        const aboutMarquee = document.querySelector('.about-marquee');
+        if (aboutMarquee) {
+            gsap.fromTo(aboutMarquee,
+                { opacity: 0, x: 40 },
                 {
-                    y: 0,
                     opacity: 1,
-                    scale: 1,
-                    duration: 0.6,
+                    x: 0,
+                    duration: 1,
                     ease: 'power3.out',
-                    stagger: {
-                        each: 0.08,
-                        from: 'start',
-                    },
                     scrollTrigger: {
-                        trigger: '.about-photos-grid',
+                        trigger: aboutMarquee,
                         start: 'top 85%',
                         toggleActions: 'play none none none',
                     },
@@ -626,13 +626,37 @@ document.addEventListener('DOMContentLoaded', () => {
     // ─── Hero Image: floating animation is handled by CSS keyframes ───
     // (The .floating class is added after the GSAP entrance animation completes)
 
-    // ─── Project Card Hover Lift ───
+    // ─── Project Card Hover — Scale + Shadow + Tilt ───
     gsap.utils.toArray('.project-card').forEach(card => {
         card.addEventListener('mouseenter', () => {
-            gsap.to(card, { y: -5, duration: 0.3, ease: 'power2.out', overwrite: 'auto' });
+            gsap.to(card, {
+                y: -8,
+                scale: 1.02,
+                boxShadow: '0 20px 60px rgba(0,0,0,0.12)',
+                duration: 0.4,
+                ease: 'power2.out',
+                overwrite: 'auto'
+            });
         });
         card.addEventListener('mouseleave', () => {
-            gsap.to(card, { y: 0, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+            gsap.to(card, {
+                y: 0,
+                scale: 1,
+                boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+                duration: 0.5,
+                ease: 'power2.out',
+                overwrite: 'auto'
+            });
+        });
+    });
+
+    // ─── Personal Card Hover — Scale + Lift ───
+    gsap.utils.toArray('.personal-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            gsap.to(card, { y: -6, scale: 1.03, duration: 0.35, ease: 'power2.out', overwrite: 'auto' });
+        });
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, { y: 0, scale: 1, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
         });
     });
 
@@ -643,6 +667,50 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         img.addEventListener('mouseleave', () => {
             gsap.to(img, { scale: 1, rotation: 0, duration: 0.3, ease: 'power2.out', overwrite: 'auto' });
+        });
+    });
+
+    // ─── Cursor Parallax on Hero Image ───
+    const heroImage = document.querySelector('.hero-image-card');
+    if (heroImage) {
+        document.addEventListener('mousemove', (e) => {
+            const xPercent = (e.clientX / window.innerWidth - 0.5) * 2;
+            const yPercent = (e.clientY / window.innerHeight - 0.5) * 2;
+            gsap.to(heroImage, {
+                x: xPercent * 15,
+                y: yPercent * 10,
+                rotateY: xPercent * 5,
+                rotateX: -yPercent * 5,
+                duration: 0.8,
+                ease: 'power2.out',
+                overwrite: 'auto'
+            });
+        });
+    }
+
+    // ─── Magnetic Button Effect ───
+    const magneticBtns = document.querySelectorAll('.nav-btn, .btn, .footer-email-btn, .footer-social-icon');
+    magneticBtns.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            gsap.to(btn, {
+                x: x * 0.3,
+                y: y * 0.3,
+                duration: 0.3,
+                ease: 'power2.out',
+                overwrite: 'auto'
+            });
+        });
+        btn.addEventListener('mouseleave', () => {
+            gsap.to(btn, {
+                x: 0,
+                y: 0,
+                duration: 0.5,
+                ease: 'elastic.out(1, 0.4)',
+                overwrite: 'auto'
+            });
         });
     });
 

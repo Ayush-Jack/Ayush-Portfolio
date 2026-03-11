@@ -582,7 +582,7 @@ section,
 }
 
 .project-image-grid {
-    border-radius: var(--radius-xl);
+    border-radius: 16px;
     overflow: hidden;
     background: var(--bg-card);
     border: 1px solid var(--border-light);
