@@ -318,7 +318,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Start wave emoji
                 const emoji = document.querySelector('.wave-emoji');
                 if (emoji) emoji.classList.add('waving');
-                // Resume Lenis smooth scroll
+                // Unlock scroll only after hero is fully done
+                document.body.classList.remove('is-loading');
+                document.body.classList.add('loaded');
                 lenis.start();
                 // Init scroll animations after hero is done
                 initScrollAnimations();
@@ -365,15 +367,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 0.7);
 
         // ── Phase 4: Description Word-by-word Reveal (blur → clear) ──
-        // Slower stagger (0.08s/word) + longer duration to match reference
         master.to(taglineWords, {
             y: 0,
             opacity: 1,
             filter: 'blur(0px)',
-            duration: 1.8,
-            ease: 'power4.out',
+            duration: 0.6,
+            ease: 'power3.out',
             stagger: {
-                each: 0.08,
+                each: 0.05,
                 from: 'start',
             },
         }, 1.1);
@@ -407,8 +408,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 ease: 'power2.inOut',
                 onComplete: () => {
                     pageLoader.style.display = 'none';
-                    document.body.classList.remove('is-loading');
-                    document.body.classList.add('loaded');
                     playMasterTimeline();
                 }
             });
@@ -424,8 +423,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 ease: 'power2.inOut',
                 onComplete: () => {
                     pageLoader.style.display = 'none';
-                    document.body.classList.remove('is-loading');
-                    document.body.classList.add('loaded');
                     playMasterTimeline();
                 }
             });

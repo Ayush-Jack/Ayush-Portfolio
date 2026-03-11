@@ -575,6 +575,8 @@ section,
 
 .project-card {
     margin-bottom: 80px;
+    border-radius: 16px;
+    overflow: hidden;
 }
 
 .project-images {
@@ -1096,6 +1098,10 @@ section,
     .hero-tagline {
         font-size: 22px;
         margin-bottom: 20px;
+    }
+
+    .hero-content {
+        text-align: center;
     }
 
     .hero-tags {
