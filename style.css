@@ -1086,9 +1086,12 @@ section,
     }
 
     .hero-image-card {
-        width: 180px;
-        height: 240px;
+        width: 250px;
+        height: 320px;
         margin: 0 auto;
+        background: transparent;
+        box-shadow: none;
+        border: none;
     }
 
     .hero-greeting {
@@ -1100,14 +1103,27 @@ section,
         margin-bottom: 20px;
     }
 
+    #mouseTrail,
+    #dotGrid {
+        display: none !important;
+    }
+
+    body {
+        background-image: url('images/mobile-bg.svg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
     .hero-content {
-        text-align: center;
+        text-align: left;
     }
 
     .hero-tags {
-        justify-content: center;
+        justify-content: flex-start;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         gap: 10px;
     }
 
