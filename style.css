@@ -545,6 +545,11 @@ section,
     color: #9B2C5A;
     border-color: rgba(155, 44, 90, 0.12);
 }
+.tag-purple {
+    background: #f2dcfa;
+    color: #2a2565;
+    border-color: rgba(155, 44, 90, 0.12);
+}
 
 /* === Section Headers === */
 .section-header {
