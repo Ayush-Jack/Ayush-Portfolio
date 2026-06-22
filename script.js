@@ -716,4 +716,69 @@ document.addEventListener('DOMContentLoaded', () => {
     if (yearEl) {
         yearEl.innerHTML = `&copy; Ayush, ${new Date().getFullYear()}. Built with ♥`;
     }
+
+    async function loadProjects() {
+  const query = encodeURIComponent(`
+    *[_type=="project"]{
+      title,
+      description,
+      link,
+      techStack,
+      "imageUrl": image.asset->url
+    }
+  `);
+
+  const url =
+    `https://uw3ki8m8.api.sanity.io/v2021-10-21/data/query/production?query=${query}`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    const container = document.getElementById("projects-container");
+
+    data.result.forEach(project => {
+      container.innerHTML += `
+        <div class="project-card">
+          <div class="project-images">
+            <div class="project-image-grid project-grid-single">
+              <img
+                src="${project.imageUrl}"
+                alt="${project.title}"
+                class="project-img"
+              >
+            </div>
+          </div>
+
+          <div class="project-info">
+            <h3 class="project-title">
+              ${project.title}
+              <a
+                href="${project.link}"
+                target="_blank"
+                class="project-link-icon"
+              >
+                ↗
+              </a>
+            </h3>
+
+            <p class="project-description">
+              ${project.description}
+            </p>
+
+            <p>
+              <strong>Tech Stack:</strong>
+              ${project.techStack}
+            </p>
+          </div>
+        </div>
+      `;
+    });
+  } catch (err) {
+    console.error("Failed to load projects:", err);
+  }
+}
+
+loadProjects();
+    
 });
